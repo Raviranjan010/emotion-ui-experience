@@ -1,4 +1,4 @@
-# 🎭 Mood-Based UI Changer (changes on mood)
+# 🎭 Mood-Based UI Changer 
 
 An expressive and interactive **Mood-Based UI Changer** that transforms the entire website’s
 look and feel based on the user’s selected mood.  
