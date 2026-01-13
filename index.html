@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atmosphere // Mood-Based UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="bg-overlay"></div>
+
+    <main class="app-container">
+        <header class="fade-in">
+            <p id="greeting" class="greeting">Good Moments</p>
+            <h1 id="current-mood-display">Neutral</h1>
+        </header>
+
+        <section class="stage">
+            <div id="emoji-container" class="emoji-wrapper">
+                <span id="main-emoji">✨</span>
+            </div>
+            
+            <div class="content-card glass">
+                <p id="mood-quote">"Your environment is a reflection of your mind. Choose your vibe."</p>
+                <div class="music-suggestion">
+                    <span class="icon">🎧</span>
+                    <span id="music-text">Select a mood to start</span>
+                </div>
+            </div>
+        </section>
+
+        <nav class="mood-selector">
+            <button class="mood-btn" data-mood="happy" aria-label="Happy">😊</button>
+            <button class="mood-btn" data-mood="sad" aria-label="Sad">😔</button>
+            <button class="mood-btn" data-mood="focused" aria-label="Focused">🎯</button>
+            <button class="mood-btn" data-mood="angry" aria-label="Angry">😡</button>
+            <button class="mood-btn" data-mood="chill" aria-label="Chill">☁️</button>
+        </nav>
+
+        <footer class="controls">
+            <button id="reset-btn">Reset Experience</button>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
