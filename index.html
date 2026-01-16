@@ -3,45 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atmosphere // Mood-Based UI</title>
+    <title>Aura // Spatial Mood</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="bg-gradient"></div>
-    <div class="bg-overlay"></div>
+<body data-mood="neutral">
+    <div class="aura-fluid"></div>
+    <div class="cursor-glow"></div>
 
-    <main class="app-container">
-        <header class="fade-in">
-            <p id="greeting" class="greeting">Good Moments</p>
-            <h1 id="current-mood-display">Neutral</h1>
-        </header>
-
-        <section class="stage">
-            <div id="emoji-container" class="emoji-wrapper">
-                <span id="main-emoji">✨</span>
+    <main class="spatial-canvas">
+        <div class="top-nav">
+            <div class="status">
+                <span class="pulse-dot"></span>
+                <span id="greeting">Connecting...</span>
             </div>
+            <div id="clock">00:00:00</div>
+        </div>
+
+        <div class="center-stage">
+            <h1 id="mood-title">Choose your state</h1>
+            <p id="mood-quote">"The energy you introduce is the energy you receive."</p>
             
-            <div class="content-card glass">
-                <p id="mood-quote">"Your environment is a reflection of your mind. Choose your vibe."</p>
-                <div class="music-suggestion">
-                    <span class="icon">🎧</span>
-                    <span id="music-text">Select a mood to start</span>
-                </div>
+            <div class="visualizer-container">
+                <div class="ring outer"></div>
+                <div class="ring inner"></div>
+                <div id="main-emoji">✨</div>
             </div>
-        </section>
+        </div>
 
-        <nav class="mood-selector">
-            <button class="mood-btn" data-mood="happy" aria-label="Happy">😊</button>
-            <button class="mood-btn" data-mood="sad" aria-label="Sad">😔</button>
-            <button class="mood-btn" data-mood="focused" aria-label="Focused">🎯</button>
-            <button class="mood-btn" data-mood="angry" aria-label="Angry">😡</button>
-            <button class="mood-btn" data-mood="chill" aria-label="Chill">☁️</button>
-        </nav>
-
-        <footer class="controls">
-            <button id="reset-btn">Reset Experience</button>
-        </footer>
+        <aside class="sidebar-history">
+            <div class="sidebar-header">RECENT FLOW</div>
+            <div id="history-list"></div>
+        </aside>
     </main>
+
+    <nav class="dock-container">
+        <div class="dock">
+            <button class="dock-item" data-mood="happy" title="Radiant">☀️</button>
+            <button class="dock-item" data-mood="sad" title="Deep Blue">🌧️</button>
+            <button class="dock-item" data-mood="focused" title="Monolith">💎</button>
+            <button class="dock-item" data-mood="angry" title="Ignite">🌋</button>
+            <button class="dock-item" data-mood="chill" title="Ethereal">🌿</button>
+            <div class="dock-separator"></div>
+            <button id="reset-btn" class="dock-item">🔄</button>
+        </div>
+    </nav>
 
     <script src="script.js"></script>
 </body>
