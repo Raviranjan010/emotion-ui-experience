@@ -1,136 +1,69 @@
-/**
- * MOOD CONFIGURATION
- * Add new moods here to automatically update the UI capabilities
- */
-const moodData = {
-    happy: {
-        name: "Radiant",
-        emoji: "☀️",
-        color1: "#FFD200",
-        color2: "#F7971E",
-        animation: "anim-bounce",
-        quote: "Keep your face to the sunshine and you cannot see a shadow.",
-        music: "Listening to: Upbeat Indie Pop 🎸",
-        accent: "#ffffff"
-    },
-    sad: {
-        name: "Reflective",
-        emoji: "🌧️",
-        color1: "#00c6ff",
-        color2: "#0072ff",
-        animation: "anim-drift",
-        quote: "The sky is not always blue, but it's always there.",
-        music: "Listening to: Cinematic Piano 🎹",
-        accent: "#e0f7fa"
-    },
-    focused: {
-        name: "Deep Work",
-        emoji: "💎",
-        color1: "#141e30",
-        color2: "#243b55",
-        animation: "anim-pulse",
-        quote: "Concentrate all your thoughts upon the work at hand.",
-        music: "Listening to: Brown Noise / Lo-Fi 🎧",
-        accent: "#00ffcc"
-    },
-    angry: {
-        name: "Powerful",
-        emoji: "🌋",
-        color1: "#eb3349",
-        color2: "#f45c43",
-        animation: "anim-shake",
-        quote: "Channel this energy into something unstoppable.",
-        music: "Listening to: High-Octane Phonk 🏎️",
-        accent: "#ffeb3b"
-    },
-    chill: {
-        name: "Zen",
-        emoji: "🌿",
-        color1: "#11998e",
-        color2: "#38ef7d",
-        animation: "anim-float",
-        quote: "Nature does not hurry, yet everything is accomplished.",
-        music: "Listening to: Ambient Forest Sounds 🍃",
-        accent: "#ffffff"
-    }
+const body = document.body;
+const aura = document.querySelector('.aura-fluid');
+const cursor = document.querySelector('.cursor-glow');
+
+// 1. Mouse Interaction (The Fluid Effect)
+document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth) * 100;
+    const y = (e.clientY / window.innerHeight) * 100;
+    
+    aura.style.setProperty('--x', `${x}%`);
+    aura.style.setProperty('--y', `${y}%`);
+    
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+});
+
+// 2. Keyboard Shortcuts (Unique Feature)
+document.addEventListener('keydown', (e) => {
+    const keyMap = {
+        '1': 'happy',
+        '2': 'sad',
+        '3': 'focused',
+        '4': 'angry',
+        '5': 'chill'
+    };
+    if (keyMap[e.key]) applyMood(keyMap[e.key]);
+});
+
+// 3. Real-Time Clock
+setInterval(() => {
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+}, 1000);
+
+// 4. Enhanced Mood Logic
+const moods = {
+    happy: { color: '#FFD700', title: 'Radiant', quote: 'Sunshine is the best medicine.' },
+    sad: { color: '#1E90FF', title: 'Deep Blue', quote: 'Rain cleanses the soul.' },
+    focused: { color: '#00FA9A', title: 'Flow State', quote: 'Distraction is the enemy of greatness.' },
+    angry: { color: '#FF4500', title: 'Ignite', quote: 'Power is energy under control.' },
+    chill: { color: '#DDA0DD', title: 'Zenith', quote: 'Stillness is where the answer lies.' }
 };
 
-// State Elements
-const body = document.body;
-const root = document.documentElement;
-const mainEmoji = document.getElementById('main-emoji');
-const moodTitle = document.getElementById('current-mood-display');
-const moodQuote = document.getElementById('mood-quote');
-const musicText = document.getElementById('music-text');
-const greetingText = document.getElementById('greeting');
-const bgGradient = document.querySelector('.bg-gradient');
-const buttons = document.querySelectorAll('.mood-btn');
+function applyMood(key) {
+    const data = moods[key];
+    body.style.setProperty('--aura-color', data.color);
+    document.getElementById('mood-title').textContent = data.title;
+    document.getElementById('mood-quote').textContent = data.quote;
+    
+    // Animate the Rings
+    document.querySelector('.outer').style.borderColor = data.color;
+    document.querySelector('.outer').style.transform = 'scale(1.2)';
+    setTimeout(() => document.querySelector('.outer').style.transform = 'scale(1)', 500);
 
-/**
- * CORE FUNCTIONS
- */
-
-function applyMood(moodKey, isInitialLoad = false) {
-    const data = moodData[moodKey];
-    if (!data) return;
-
-    // 1. Update Colors (CSS Variables)
-    root.style.setProperty('--bg-color-1', data.color1);
-    root.style.setProperty('--bg-color-2', data.color2);
-    root.style.setProperty('--accent-color', data.accent);
-
-    // 2. Update Content
-    moodTitle.textContent = data.name;
-    mainEmoji.textContent = data.emoji;
-    moodQuote.textContent = `"${data.quote}"`;
-    musicText.textContent = data.music;
-
-    // 3. Update Animations
-    mainEmoji.className = ''; // Reset classes
-    void mainEmoji.offsetWidth; // Force reflow for animation restart
-    mainEmoji.classList.add(data.animation);
-
-    // 4. Update Button Styles
-    buttons.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.mood === moodKey);
-    });
-
-    // 5. Haptic Feedback (if available on mobile)
-    if (!isInitialLoad && 'vibrate' in navigator) {
-        navigator.vibrate(50);
-    }
-
-    // 6. Persistence
-    localStorage.setItem('userMood', moodKey);
+    // Save history
+    addToHistory(key);
 }
 
-function setGreeting() {
-    const hour = new Date().getHours();
-    let message = "Good Morning";
-    if (hour >= 12 && hour < 17) message = "Good Afternoon";
-    if (hour >= 17) message = "Good Evening";
-    greetingText.textContent = message;
+function addToHistory(key) {
+    const list = document.getElementById('history-list');
+    const item = document.createElement('div');
+    item.className = 'history-entry';
+    item.textContent = `${new Date().getHours()}:${new Date().getMinutes()} - ${key}`;
+    list.prepend(item);
 }
 
-/**
- * EVENT LISTENERS
- */
-
-buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const selectedMood = btn.dataset.mood;
-        applyMood(selectedMood);
-    });
-});
-
-document.getElementById('reset-btn').addEventListener('click', () => {
-    localStorage.removeItem('userMood');
-    window.location.reload();
-});
-
-// Initialization
-window.addEventListener('DOMContentLoaded', () => {
-    setGreeting();
-    const savedMood = localStorage.getItem('userMood') || 'happy';
-    applyMood(savedMood, true);
+// Dock click listeners
+document.querySelectorAll('.dock-item').forEach(item => {
+    item.addEventListener('click', () => applyMood(item.dataset.mood));
 });
