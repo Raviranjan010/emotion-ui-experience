@@ -1,53 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura // Spatial Mood</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aura — Spatial Mood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
-<body data-mood="neutral">
-    <div class="aura-fluid"></div>
-    <div class="cursor-glow"></div>
+<body>
+<div class="mesh" id="mesh"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="trail"></div>
 
-    <main class="spatial-canvas">
-        <div class="top-nav">
-            <div class="status">
-                <span class="pulse-dot"></span>
-                <span id="greeting">Connecting...</span>
-            </div>
-            <div id="clock">00:00:00</div>
-        </div>
+<!-- BREATH OVERLAY -->
+<div class="breath-overlay" id="breathOverlay">
+  <div class="breath-text" id="breathPhase">Inhale slowly…</div>
+  <div class="breath-circle" id="breathCircle"></div>
+  <button class="breath-close" id="breathClose">ESC to close</button>
+</div>
 
-        <div class="center-stage">
-            <h1 id="mood-title">Choose your state</h1>
-            <p id="mood-quote">"The energy you introduce is the energy you receive."</p>
-            
-            <div class="visualizer-container">
-                <div class="ring outer"></div>
-                <div class="ring inner"></div>
-                <div id="main-emoji">✨</div>
-            </div>
-        </div>
+<div class="canvas">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">Aura <span>/ mood space</span></div>
+      <div class="status-pill">
+        <div class="pulse" id="pulse"></div>
+        <span id="greeting">Initialising</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="date-chip" id="dateChip"></span>
+      <span id="clock">00:00:00</span>
+    </div>
+  </header>
 
-        <aside class="sidebar-history">
-            <div class="sidebar-header">RECENT FLOW</div>
-            <div id="history-list"></div>
-        </aside>
-    </main>
+  <!-- CENTER -->
+  <main class="center">
+    <div class="mood-label">current state</div>
+    <h1 id="mood-title">Choose your state</h1>
+    <p id="mood-quote">"The energy you invite is the energy you become."</p>
 
-    <nav class="dock-container">
-        <div class="dock">
-            <button class="dock-item" data-mood="happy" title="Radiant">☀️</button>
-            <button class="dock-item" data-mood="sad" title="Deep Blue">🌧️</button>
-            <button class="dock-item" data-mood="focused" title="Monolith">💎</button>
-            <button class="dock-item" data-mood="angry" title="Ignite">🌋</button>
-            <button class="dock-item" data-mood="chill" title="Ethereal">🌿</button>
-            <div class="dock-separator"></div>
-            <button id="reset-btn" class="dock-item">🔄</button>
-        </div>
-    </nav>
+    <div class="viz-wrap">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="orb" id="orb">✨</div>
+    </div>
 
-    <script src="script.js"></script>
+    <div class="intensity-wrap">
+      <span class="intensity-label">Intensity</span>
+      <div class="intensity-bar"><div class="intensity-fill" id="intensityFill"></div></div>
+      <span class="intensity-val" id="intensityVal">60%</span>
+    </div>
+
+    <div class="key-hints" id="keyHints">
+      <div class="key" data-k="1">1</div>
+      <div class="key" data-k="2">2</div>
+      <div class="key" data-k="3">3</div>
+      <div class="key" data-k="4">4</div>
+      <div class="key" data-k="5">5</div>
+      <div class="key" data-k="b" title="Breath guide">B</div>
+    </div>
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-head">Recent Flow</div>
+    <div id="history-list"></div>
+    <div class="mood-stats">
+      <div class="stat-title">Session stats</div>
+      <div id="stat-rows"></div>
+    </div>
+  </aside>
+
+  <!-- DOCK -->
+  <nav class="dock-wrap">
+    <div class="dock">
+      <button class="dock-btn" data-mood="happy">☀️<span class="label">Radiant</span></button>
+      <button class="dock-btn" data-mood="sad">🌧️<span class="label">Blue</span></button>
+      <button class="dock-btn" data-mood="focused">💎<span class="label">Flow</span></button>
+      <button class="dock-btn" data-mood="angry">🌋<span class="label">Ignite</span></button>
+      <button class="dock-btn" data-mood="chill">🌿<span class="label">Zenith</span></button>
+      <div class="dock-sep"></div>
+      <button class="dock-btn" id="breathBtn">🫁<span class="label">Breathe</span></button>
+      <button class="dock-btn" id="resetBtn">↺<span class="label">Reset</span></button>
+    </div>
+  </nav>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
 </body>
 </html>
